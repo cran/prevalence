@@ -1,0 +1,14 @@
+import(methods)
+export(truePrev, truePrevPools, betaPERT, betaExpert, propCI)
+
+S3method(print, betaPERT)
+S3method(plot, betaPERT)
+S3method(print, betaExpert)
+S3method(plot, betaExpert)
+S3method(print, prevModel)
+
+importFrom("methods", show)
+importFrom("graphics", plot)
+
+exportClasses(prev)
+exportMethods(show, print, summary, plot)
