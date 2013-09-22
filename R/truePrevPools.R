@@ -6,17 +6,17 @@ function(x, n, SE = 1, SP = 1, prior = c(1, 1), conf.level = 0.95,
   ## check x and n:
   if (missing(x))  stop("'x' is missing")
   if (missing(n))  stop("'n' is missing")
-  checkInput(x, "x", class = "integer", value = c(0,1))
+  checkInput(x, "x", class = "integer", value = c(0, 1))
   checkInput(n, "n", class = "integer", minEq = 0)
   if (length(x) > 1 & length(n) == 1)  n <- rep(n, length(x))
   if (length(x) != length(n))  stop("'x' and 'n' must be of same length")
   if (length(x) == 1)  stop("\"truePrevPools\" requires at least 2 pools")
 
   ## check SE & SP:
-  checkInput(SE, "SE", class = c("list", "numeric"))
-  checkInput(SP, "SP", class = c("list", "numeric"))
-  Se <- checkSeSp(SE)
-  Sp <- checkSeSp(SP)
+  checkInput(SE, "SE", class = c("formula", "list", "numeric"))
+  checkInput(SP, "SP", class = c("formula", "list", "numeric"))
+  Se <- checkBinPrior(SE)
+  Sp <- checkBinPrior(SP)
 
   ## check prior & conf.level
   checkInput(prior, "prior", class = "numeric", length = 2, minEq = 0)

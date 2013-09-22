@@ -4,7 +4,8 @@ function(x, name, class, length, value, range, min, max, minEq, maxEq){
   ## check class (note: 'integer' is treated as dominant class)
   if (!missing(class))
     if (any(class == "integer")){
-      if (any(x%%1 != 0))
+      if (any(class(x) != "integer") &
+          (any(class(x) != "numeric") || any(x%%1 != 0)))
         stop(paste("'", name, "' must be of class integer", sep = ""))
     } else {
       if (!any(class(x) == class))

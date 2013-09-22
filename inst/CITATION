@@ -13,7 +13,7 @@ citEntry(
 			 person("Niko", "Speybroeck", role = "aut")),
   title = "prevalence: Tools for prevalence assessment studies.",
   year = "2013",
-  note = "R package version 0.1.0",
+  note = "R package version 0.2.0",
   url = "http://cran.r-project.org/package=prevalence",
-  textVersion = "Brecht Devleesschauwer, Paul Torgerson, Johannes Charlier, Bruno Levecke, Nicolas Praet, Pierre Dorny, Dirk Berkvens and Niko Speybroeck (2013). prevalence: Tools for prevalence assessment studies. R package version 0.1.0. http://cran.r-project.org/package=prevalence"
+  textVersion = "Brecht Devleesschauwer, Paul Torgerson, Johannes Charlier, Bruno Levecke, Nicolas Praet, Pierre Dorny, Dirk Berkvens and Niko Speybroeck (2013). prevalence: Tools for prevalence assessment studies. R package version 0.2.0. http://cran.r-project.org/package=prevalence"
 )

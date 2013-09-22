@@ -1,5 +1,14 @@
-import(methods)
-export(truePrev, truePrevPools, betaPERT, betaExpert, propCI)
+import(rjags)
+importFrom("methods", show)
+importFrom("graphics", plot)
+importFrom("coda", gelman.plot)
+importFrom("coda", densplot)
+importFrom("coda", traceplot)
+importFrom("coda", autocorr.plot)
+
+export(truePrev, truePrevPools, truePrevMulti,
+       definition_x, definition_theta,
+       betaPERT, betaExpert, propCI)
 
 S3method(print, betaPERT)
 S3method(plot, betaPERT)
@@ -7,8 +16,6 @@ S3method(print, betaExpert)
 S3method(plot, betaExpert)
 S3method(print, prevModel)
 
-importFrom("methods", show)
-importFrom("graphics", plot)
-
 exportClasses(prev)
-exportMethods(show, print, summary, plot)
+exportMethods(show, print, summary, plot,
+              densplot, traceplot, autocorr.plot, gelman.plot)

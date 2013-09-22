@@ -10,7 +10,7 @@ function(me){
 
     for (i in seq_along(split))
       if (split[i] != "E+" & split[i] != "E-" & split[i] != "")
-        s <- paste(strsplit(s, split[i], fixed = T)[[1]], collapse = "@")
+        s <- paste(strsplit(s, split[i], fixed = TRUE)[[1]], collapse = "@")
 
     split <- unlist(strsplit(s, "@"))
 
@@ -19,7 +19,7 @@ function(me){
         dig <- nchar(strsplit(split[i],"E")[[1]][1])
         me[line] <- sub(split[i],
           formatC(as.numeric(split[i]), format = "E", digits = dig),
-          me[line], fixed = T)
+          me[line], fixed = TRUE)
       }
   }
 

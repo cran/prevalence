@@ -16,7 +16,7 @@ function(x){
     distr <- x$dist
   }
 
-  if (length(unlist(x)) > length(x))
+  if (is.list(x) && length(unlist(x)) > length(x))
     stop("Parameters cannot be specified as vectors")
 
   if (is.null(distr))
@@ -26,9 +26,9 @@ function(x){
   distr <- tolower(distr)
   if (!any(c("fixed", "uniform", "pert", "beta", "beta-expert") == distr))
     stop(paste("Distribution must be",
-               "'fixed', 'uniform', 'pert', 'beta' or 'beta-expert'",
-               collapse = ""))
+               "'fixed', 'uniform', 'pert', 'beta' or 'beta-expert'"))
 
+  ## Fixed distribution
   if (distr == "fixed" & is.null(param)){
     if (length(x) > 2)
       warning("A fixed distribution requires only 1 parameter")
@@ -40,6 +40,7 @@ function(x){
     param <- x$par
   }
 
+  ## Uniform distribution
   if (distr == "uniform"){
     if (length(x) > 3)
       warning("A uniform distribution requires only 2 parameters")
@@ -57,6 +58,7 @@ function(x){
     param <- c(x$min, x$max)
   }
 
+  ## Beta distribution
   if (distr == "beta"){
     if (length(x) > 3)
       warning("A beta distribution requires only 2 parameters")
@@ -72,6 +74,7 @@ function(x){
     param <- c(x$alpha, x$beta)
   }
 
+  ## Beta-Expert distribution
   if (distr == "beta-expert"){
     if (is.null(x$mode) & is.null(x$mean))
       stop("At least 'mode' or 'mean' must be specified")
@@ -110,6 +113,7 @@ function(x){
     }
   }
 
+  ## Beta-PERT distribution
   if (distr == "pert"){
     if (length(x) > 5)
       warning("A PERT distribution requires maximum 5 parameters")

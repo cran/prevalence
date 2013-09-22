@@ -14,10 +14,10 @@ function(x, n, SE = 1, SP = 1, prior = c(1, 1), conf.level = 0.95,
   if (any(x > n)) stop("'x' cannot be larger than 'n'")
 
   ## check SE and SP
-  checkInput(SE, "SE", class = c("list", "numeric"))
-  checkInput(SP, "SP", class = c("list", "numeric"))
-  Se <- checkSeSp(SE)
-  Sp <- checkSeSp(SP)
+  checkInput(SE, "SE", class = c("formula", "list", "numeric"))
+  checkInput(SP, "SP", class = c("formula", "list", "numeric"))
+  Se <- checkBinPrior(SE, "SE")
+  Sp <- checkBinPrior(SP, "SP")
 
   ## check prior
   checkInput(prior, "prior", class = "numeric", length = 2, minEq = 0)

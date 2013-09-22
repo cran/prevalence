@@ -35,10 +35,10 @@ Five methods are available for calculating confidence intervals. For convenience
 	\deqn{\tilde{p} \pm z_{1-\frac{\alpha}{2}} \sqrt{\frac{\tilde{p}(1-\tilde{p})}{\tilde{n}}}}
   }
   \item{\code{"exact", "clopper-pearson", "cp"}}{
-    \deqn{(Beta(\frac{\alpha}{2};~x ,~n - x + 1),~~Beta(1 - \frac{\alpha}{2};~x + 1,~n - x))}
+    \deqn{(Beta(\frac{\alpha}{2}; x, n - x + 1), Beta(1 - \frac{\alpha}{2}; x + 1, n - x))}
   }
   \item{\code{"jeffreys", "bayes"}}{
-    \deqn{(Beta(\frac{\alpha}{2};~x + 0.5,~n - x + 0.5),~~Beta(1 - \frac{\alpha}{2};~x + 0.5,~n - x + 0.5))}
+    \deqn{(Beta(\frac{\alpha}{2}; x + 0.5, n - x + 0.5), Beta(1 - \frac{\alpha}{2}; x + 0.5, n - x + 0.5))}
   }
   \item{\code{"wald", "asymptotic", "normal"}}{
     \deqn{p \pm z_{1-\frac{\alpha}{2}} \sqrt{\frac{p(1-p)}{n}}}

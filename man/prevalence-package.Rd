@@ -15,14 +15,15 @@
   \tabular{ll}{
     Package: \tab prevalence\cr
     Type: \tab Package\cr
-    Version: \tab 0.1.0\cr
-    Date: \tab 2013-07-05\cr
+    Version: \tab 0.2.0\cr
+    Date: \tab 2013-09-22\cr
     License: \tab GNU >= 2\cr
 }
 
 Available functions in the \pkg{prevalence} package:
   \tabular{ll}{
-    \code{\link[prevalence:truePrev]{truePrev}} \tab Estimate TP from AP obtained by testing individual samples\cr
+    \code{\link[prevalence:truePrev]{truePrev}} \tab Estimate TP from AP obtained by testing individual samples with a single test\cr
+	\code{\link[prevalence:truePrevMulti]{truePrevMulti}} \tab Estimate TP from AP obtained by testing individual samples with multiple tests\cr
     \code{\link[prevalence:truePrevPools]{truePrevPools}} \tab Estimate TP from AP obtained by testing pooled samples\cr
 	\code{\link[prevalence:propCI]{propCI}} \tab Derive confidence intervals for a prevalence estimate\cr
     \code{\link[prevalence:betaPERT]{betaPERT}} \tab Calculate the parameters of a Beta-PERT distribution\cr
