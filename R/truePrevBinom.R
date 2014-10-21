@@ -1,5 +1,5 @@
 truePrevBinom <-
-function(x, n, Se, Sp, prior, conf.level,
+function(x, n, Se, Sp, prior,
          nchains, burnin, update, verbose){
 
   ## create model
@@ -40,8 +40,8 @@ function(x, n, Se, Sp, prior, conf.level,
   out <-
     new("prev",
         par = list(x = x, n = n, SE = Se, SP = Sp, prior = prior,
-                   conf.level = conf.level, nchains = nchains,
-                   burnin = burnin, update = update, inits = inits),
+                   nchains = nchains, burnin = burnin, update = update,
+                   inits = inits),
         model = model,
         mcmc = mcmc.list,
         diagnostics = list(DIC = DIC,

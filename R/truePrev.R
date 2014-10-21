@@ -1,7 +1,7 @@
 truePrev <-
-function(x, n, SE = 1, SP = 1, prior = c(1, 1), conf.level = 0.95,
-  nchains = 2, burnin = 5000, update = 10000,
-  verbose = FALSE, plot = FALSE){
+function(x, n, SE = 1, SP = 1, prior = c(1, 1),
+         nchains = 2, burnin = 10000, update = 10000,
+         verbose = FALSE) {
 
   ## check x and n
   if (missing(x))  stop("'x' is missing")
@@ -22,23 +22,18 @@ function(x, n, SE = 1, SP = 1, prior = c(1, 1), conf.level = 0.95,
   ## check prior
   checkInput(prior, "prior", class = "numeric", length = 2, minEq = 0)
 
-  ## check conf.level
-  checkInput(conf.level, "conf.level", class = "numeric", range = c(0,1))
-
   ## check nchains, burnin & update
   checkInput(nchains, "nchains", class = "integer", min = 2)
   checkInput(burnin, "burnin", class = "integer", min = 1)
   checkInput(update, "update", class = "integer", min = 1)
 
   ## check options
-  checkInput(plot, "plot", class = "logical")
   checkInput(verbose, "verbose", class = "logical")
 
   ## get output
-  out <- truePrevBinom(x, n, Se, Sp, prior, conf.level,
+  out <- truePrevBinom(x, n, Se, Sp, prior,
                        nchains, burnin, update, verbose)
 
   ## return output
-  if (plot) plot(out)
   return(out)
 }

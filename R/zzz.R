@@ -11,83 +11,83 @@ setClass("prev",
 ##= Define S4 methods =====================================================
 setMethod("show", "prev",
   function(object)
-    print(object, object@par$conf.level)
+    print(object)
 )
 
 setMethod("print", "prev",
-  function(x, conf.level, dig = 3, ...){
-    ## get 'conf.level' from 'x', but allow to override
-    if (missing(conf.level))
-      conf.level <- x@par$conf.level
-
+  function(x, conf.level = 0.95, dig = 3, ...) {
     ## guess which function generated 'x'
     multi <- length(x@par$prior) > 2
 
     ## get summary statistics from 'summary()'
     stats <- summary(x, conf.level)
-    if (!is.list(stats))
-      stats <- list(stats)
+    if (!is.list(stats)) stats <- list(stats)
 
     summary_row <- x@par$nchains + 1
-    out <- t(sapply(stats, function(x) x[summary_row, c(1, 2, 3, 6, 7)]))
+    out <- t(sapply(stats, function(x) x[summary_row, c(1:4, 6:7)]))
 
-    if (multi){
-      n <- log(length(x@par$x), 2)
+    if (multi) {
+      h <- log(length(x@par$x), 2)
+      method <-
+        ifelse(x@par$prior[[1]][[1]] == "TP", "covariance", "conditional")
+
       rownames(out) <-
-        c(" TP (%)",
-          paste(
-            paste(rep(c("SE", "SP"), times = n),
-                  rep(seq(n), each = 2),
-                  sep = ""),
-          "(%)"))
+        switch(method,
+               conditional = c(" TP",
+                               paste0(rep(c("SE", "SP"), times = h),
+                                      rep(seq(h), each = 2))),
+               covariance = get_nodes(h))
+
     } else {
-      rownames(out) <- "True prevalence (%)"
+      rownames(out) <- "True prevalence"
     }
 
     ## get BGR statistic
     BGR <- x@diagnostics$BGR
 
     ## if multinomial, get bayesP
-    if (multi)
-      bayesP <- x@diagnostics$bayesP
+    if (multi) bayesP <- x@diagnostics$bayesP
 
     ## print 'out' dataframe
-    print(round(100 * out, dig), ...)
+    print(round(out, dig), ...)
 
     ## print diagnostic information
-    cat("\nBGR statistic = ", round(BGR[[1]], 4),
-        " (upper CL = ", round(BGR[[2]], 4), ")\n", sep = "")
-    cat("BGR values substantially above 1 indicate lack of convergence\n")
-    if (multi){
-      cat("Bayes-P statistic =", round(bayesP, 2), "\n")
-      cat("Bayes-P values substantially different from 0.5",
-          "indicate lack of convergence\n")
+    if (multi) {
+      cat("\nMultivariate BGR statistic = ", round(BGR$mpsrf, 4), "\n", sep = "")
+      cat("BGR values substantially above 1 indicate lack of convergence\n")
+
+      if (method == "conditional") {
+        cat("Bayes-P statistic =", round(bayesP, 2), "\n")
+        cat("Bayes-P values substantially different from 0.5",
+            "indicate lack of convergence\n")
+      }
+
+    } else {
+      cat("\nBGR statistic = ", round(BGR[[1]], 4),
+          " (upper CL = ", round(BGR[[2]], 4), ")\n", sep = "")
+      cat("BGR values substantially above 1 indicate lack of convergence\n")
     }
   }
 )
 
 setMethod("summary", "prev",
-  function(object, conf.level){
-    ## get 'conf.level' from 'object', but allow to override
-    if (missing(conf.level))
-      conf.level <- object@par$conf.level
-
+  function(object, conf.level = 0.95) {
     ## derive lower and upper confidence level
-    if (sum(object@par$x) == 0){
+    if (sum(object@par$x) == 0) {
       p <- c(0, conf.level)
     } else if (ifelse(length(object@par$x) == 1,
                  object@par$x == object@par$n,
-                 sum(object@par$x) == length(object@par$x))){
+                 sum(object@par$x) == length(object@par$x))) {
       p <- c(1 - conf.level, 1)
     } else {
       p <- c((1 - conf.level) / 2,
               1 - (1 - conf.level) / 2)
     }
-    ciLabel <- paste(100 * p, "%", sep = "")
+    ciLabel <- paste0(100 * p, "%")
 
     ## guess which function generated 'object'
     multi <- length(object@par$prior) > 2
-    if (multi){
+    if (multi) {
       nodes <- names(object@mcmc)[-length(names(object@mcmc))]
     } else {
       nodes <- "TP"
@@ -96,7 +96,7 @@ setMethod("summary", "prev",
     stat_list <- vector("list", length(nodes))
     names(stat_list) <- nodes
 
-    for (node in seq_along(nodes)){
+    for (node in seq_along(nodes)) {
       ## define 'stats' matrix
       n <- object@par$nchains
       stats <- matrix(ncol = 8, nrow = n + 1)
@@ -105,14 +105,14 @@ setMethod("summary", "prev",
       dimnames(stats)[[1]] <- c(paste(rep("chain", n), seq(n)), "all chains")
 
       ## extract mcmc samples for this node
-      if (multi){
+      if (multi) {
         mcmc <- object@mcmc[[node]]
       } else {
         mcmc <- object@mcmc
       }
 
       ## calculate summary statistics per chain
-      for (i in seq(object@par$nchains)){
+      for (i in seq(object@par$nchains)) {
         stats[i, 1] <- mean(mcmc[[i]], na.rm = TRUE)
         stats[i, 2] <- median(mcmc[[i]], na.rm = TRUE)
         d <- density(mcmc[[i]], na.rm = TRUE)
@@ -150,7 +150,7 @@ setMethod("summary", "prev",
 )
 
 setMethod("plot", "prev",
-  function(x, y = NULL, ...){
+  function(x, y = NULL, ...) {
     ## define 'y' if missing
     if (missing(y)) y <- "TP"
 
@@ -162,13 +162,16 @@ setMethod("plot", "prev",
 
     ## guess which function generated 'x'
     multi <- length(x@par$prior) > 2
-    if (multi){
-      n <- log(length(x@par$x), 2)
+    if (multi) {
+      h <- log2(length(x@par$x))
+
+      if (length(x@mcmc) == 1 + length(get_nodes(h))) {
+        choices <- get_nodes(h)
+      } else {
       choices <-
-        c("TP",
-          paste(rep(c("SE", "SP"), each = n),
-                seq(n),
-                sep = ""))
+        c("TP", paste0(rep(c("SE", "SP"), each = h), seq(h)))
+      }
+
       y <- match.arg(y, choices)
       mcmc <- x@mcmc[[y]]
     } else {

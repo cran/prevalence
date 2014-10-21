@@ -9,11 +9,14 @@
 The Beta-PERT methodology allows to parametrize a generalized Beta distribution based on expert opinion regarding
 a pessimistic estimate (minimum value), a most likely estimate (mode), 
 and an optimistic estimate (maximum value). The \code{betaPERT} function incorporates two methods of
-calculating the parameters of a Beta-PERT distribution, designated \code{"Classic"} and \code{"Vose"}.
+calculating the parameters of a Beta-PERT distribution, designated \code{"classic"} and \code{"vose"}.
 }
 
 \usage{
-betaPERT(a, m, b, k = 4, method = "classic", p = 0.95, plot = FALSE)
+betaPERT(a, m, b, k = 4, method = c("classic", "vose"))
+
+\method{print}{betaPERT}(x, conf.level = .95, \dots)
+\method{plot}{betaPERT}(x, y, \dots)
 }
 
 \arguments{
@@ -21,20 +24,18 @@ betaPERT(a, m, b, k = 4, method = "classic", p = 0.95, plot = FALSE)
   \item{m}{Most likely estimate (Mode)}
   \item{b}{Optimistic estimate (Maximum value)}
   \item{k}{Scale parameter}
-  \item{method}{\code{"Classic"} or \code{"Vose"}; see details below}
-  \item{p}{Confidence level for printing confidence intervals}
-  \item{plot}{Logical flag: should resulting distribution be plotted?}
+  \item{method}{\code{"classic"} or \code{"vose"}; see details below}
+  
+  \item{x}{Object of class \code{betaExpert}}
+  \item{y}{Currently ignored}
+  \item{conf.level}{Confidence level used in printing quantiles of resulting Beta-PERT distribution}
+  \item{\dots}{Other arguments to pass to function \code{print} and \code{plot}}
 }
 
 \details{
-The Beta-PERT methodology was developed in the context of Program Evaluation and Review Technique (PERT). 
-Based on a pessimistic estimate (minimum value), a most likely estimate (mode), 
-and an optimistic estimate (maximum value), typically derived through expert elicitation, 
-the parameters of a Beta distribution can be calculated. The Beta-PERT distribution is used in stochastic modeling 
-and risk assessment studies to reflect uncertainty regarding specific parameters.
+The Beta-PERT methodology was developed in the context of Program Evaluation and Review Technique (PERT). Based on a pessimistic estimate (minimum value), a most likely estimate (mode), and an optimistic estimate (maximum value), typically derived through expert elicitation, the parameters of a Beta distribution can be calculated. The Beta-PERT distribution is used in stochastic modeling and risk assessment studies to reflect uncertainty regarding specific parameters.
 
-Different methods exist in literature for defining the parameters of a Beta distribution based on PERT.
-The two most common methods are included in the \code{BetaPERT} function:
+Different methods exist in literature for defining the parameters of a Beta distribution based on PERT. The two most common methods are included in the \code{BetaPERT} function:
 \describe{
   \item{\strong{Classic}: }{The standard formulas for mean, standard deviation, \eqn{\alpha} and \eqn{\beta}, are as follows:
     \deqn{mean = \frac{a + k*m + b}{k + 2}}{mean = (a + k*m + b) / (k + 2)}
@@ -63,7 +64,6 @@ A list of class \code{"betaPERT"}:
 \item{m }{Most likely estimate (Mode)}
 \item{b }{Optimistic estimate (Maximum value)}
 \item{method }{Applied method}
-\item{p }{Confidence level for printing confidence intervals}
 
 Available generic functions for class \code{"betaPERT"} are \code{print} and \code{plot}.
 
@@ -88,7 +88,7 @@ Available generic functions for class \code{"betaPERT"} are \code{print} and \co
 \note{
 The \pkg{\href{http://cran.r-project.org/web/packages/mc2d/}{mc2d}} package provides 
 the probability density function, cumulative distribution function, quantile function and random number generation function 
-for the PERT distribution, parametrized by the \code{"Vose"} method.
+for the PERT distribution, parametrized by the \code{"vose"} method.
 }
 
 \seealso{
@@ -100,10 +100,10 @@ for the PERT distribution, parametrized by the \code{"Vose"} method.
 ## The most likely value is believed to be 10
 
 # Classical PERT
-betaPERT(a = 0, m = 10, b = 50)
+betaPERT(a = 0, m = 10, b = 50, method = "classic")
 
 # Vose parametrization
-betaPERT(a = 0, m = 10, b = 50, method = "Vose")
+betaPERT(a = 0, m = 10, b = 50, method = "vose")
 }
 
 \keyword{Expert}

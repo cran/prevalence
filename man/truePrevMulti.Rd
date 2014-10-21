@@ -1,87 +1,37 @@
 \name{truePrevMulti}
 \alias{truePrevMulti}
 
-\title{Estimate true prevalence from individuals samples using multiple tests}
+\title{Estimate true prevalence from individuals samples using multiple tests -- conditional probability scheme}
 
 \description{
-Bayesian estimation of true prevalence from apparent prevalence obtained by
-applying \emph{multiple} tests to \emph{individual} samples.
-\code{truePrevMulti} implements the approach described by Berkvens et al.
-(2006), which uses a multinomial distribution to model observed test results,
-and in which conditional dependence between tests is modelled through
-conditional probabilities.
+Bayesian estimation of true prevalence from apparent prevalence obtained by applying \emph{multiple} tests to \emph{individual} samples. \code{\link{truePrevMulti}} implements the approach described by Berkvens et al. (2006), which uses a multinomial distribution to model observed test results, and in which conditional dependence between tests is modelled through conditional probabilities.
 }
 
 \usage{
-truePrevMulti(x, n, prior,
-              conf.level = 0.95, nchains = 2, burnin = 5000, update = 10000,
-              verbose = FALSE, plot = FALSE)
+truePrevMulti(x, n, prior, nchains = 2, burnin = 10000, update = 10000,
+              verbose = FALSE)
 }
 
 \arguments{
-  \item{x}{
-    Vector of apparent test results;
-	see 'Details' below
-  }
-  \item{n}{
-    The total sample size
-  }
-  \item{prior}{
-    The prior distribution for \code{theta};
-	see 'Details' below
-  }
-  \item{conf.level}{
-    The confidence level used in the construction of the confidence interval;
-	defaults to 0.95
-  }
-  \item{nchains}{
-    The number of chains used in the estimation process;
-	must be \eqn{\ge 2}
-  }
-  \item{burnin}{
-    The number of discarded model iterations;
-	defaults to 5000
-  }
-  \item{update}{
-    The number of withheld model iterations;
-	defaults to 10000
-  }
-  \item{verbose}{
-    Logical flag, indicating if JAGS process output should be printed to the
-	R console; defaults to \code{FALSE}}
-  \item{plot}{
-    Logical flag, indicating if diagnostic plots should be given;
-    defaults to \code{FALSE}}
+  \item{x}{Vector of apparent test results; see 'Details' below}
+  \item{n}{The total sample size}
+  \item{prior}{The prior distribution for \code{theta}; see 'Details' below}
+  \item{nchains}{The number of chains used in the estimation process; must be \eqn{\ge 2}}
+  \item{burnin}{The number of discarded model iterations; defaults to 10,000}
+  \item{update}{The number of withheld model iterations; defaults to 10,000}
+  \item{verbose}{Logical flag, indicating if JAGS process output should be printed to the R console; defaults to \code{FALSE}}
 }
 
 \details{
-  \code{truePrevMulti} calls on \pkg{JAGS}/\pkg{\link[rjags:rjags]{rjags}} 
-  to estimate the true prevalence from the apparent prevalence in a Bayesian
-  framework. \code{truePrevMulti} fits a multinomial model to the apparent
-  test results obtained by testing individual samples with a given number of
-  tests. To see the actual fitted model, see the model slot of the
-  \link[prevalence:prev-class]{prev}-object.\cr
+  \code{\link{truePrevMulti}} calls on \pkg{JAGS} via the \pkg{\link[rjags:rjags]{rjags}} package to estimate true prevalence from apparent prevalence in a Bayesian framework. \code{\link{truePrevMulti}} fits a multinomial model to the apparent test results obtained by testing individual samples with a given number of tests. To see the actual fitted model, see the model slot of the \code{\link[prevalence:prev-class]{prev}}-object.\cr
 
-  The vector of apparent tests results, \code{x}, must contain the number of
-  samples corresponding to each combination of test results. To see how this
-  vector is defined for the number of tests \code{n} at hand, use
-  \code{\link{definition_x}}.
+  The vector of apparent tests results, \code{x}, must contain the number of samples corresponding to each combination of test results. To see how this vector is defined for the number of tests \code{h} at hand, use \code{\link{define_x}}.
   
-  The prior in the multinomial model consists of a vector \code{theta}, which
-  holds values for the true prevalence (TP), the sensitivity and specificity
-  of the first test (SE1, SP1), and the conditional dependencies between the
-  results of the subsequent tests and the preceding one(s). To see how this
-  vector is defined for the number of tests \code{n} at hand, use
-  \code{\link{definition_theta}}.\cr
+  The prior in the multinomial model consists of a vector \code{theta}, which holds values for the true prevalence (TP), the sensitivity and specificity of the first test (SE1, SP1), and the conditional dependencies between the results of the subsequent tests and the preceding one(s). To see how this vector is defined for the number of tests \code{n} at hand, use \code{\link{define_prior}}.\cr
   
-  The values of \code{prior} can be specified in two ways, referred to as
-  BUGS-style and list-style, respectively. See also below for some examples.\cr
+  The values of \code{prior} can be specified in two ways, referred to as BUGS-style and list-style, respectively. See also below for some examples.\cr
   
-  For BUGS-style specification, the values of \code{theta} should be given
-  between curly brackets (i.e., \code{{}}), separated by line breaks.
-  \code{theta} values can be specified to be deterministic (i.e., fixed),
-  using the \code{<-} operator, or stochastic, using the \code{~} operator.
-  In the latter case, the following distributions can be used:
+  For BUGS-style specification, the values of \code{theta} should be given between curly brackets (i.e., \code{{}}), separated by line breaks. \code{theta} values can be specified to be deterministic (i.e., fixed), using the \code{<-} operator, or stochastic, using the \code{~} operator. In the latter case, the following distributions can be used:
 
 \itemize{
   \item{\strong{Uniform:  }}{\code{dunif(min, max)}}
@@ -89,19 +39,18 @@ truePrevMulti(x, n, prior,
   \item{\strong{Beta-PERT:  }}{\code{dpert(min, mode, max)}}
 }
   
-  Alternatively, \code{theta} values can  be specified in a \emph{named}
-  \code{list()} as follows:
+  Alternatively, \code{theta} values can  be specified in a \emph{named} \code{list()} as follows:
 
 \itemize{
   \item{\strong{Fixed:  }}{\code{list(dist = "fixed", par)}}
   \item{\strong{Uniform:  }}{\code{list(dist = "uniform", min, max)}}
   \item{\strong{Beta:  }}{\code{list(dist = "beta", alpha, beta)}}
   \item{\strong{Beta-PERT:  }}{\code{list(dist = "pert", method, a, m, b, k)}\cr
-    \code{'method'} must be \code{"Classic"} or \code{"Vose"};\cr
+    \code{'method'} must be \code{"classic"} or \code{"vose"};\cr
     \code{'a'} denotes the pessimistic (minimum) estimate, \code{'m'} the most
 	likely estimate, and \code{'b'} the optimistic (maximum) estimate;\cr
     \code{'k'} denotes the scale parameter.\cr
-    See \link{betaPERT} for more information on Beta-PERT parametrization.}
+    See \code{\link{betaPERT}} for more information on Beta-PERT parameterization.}
   \item{\strong{Beta-Expert:  }}{\code{list(dist = "beta-expert", mode, mean,
   lower, upper, p)}\cr
     \code{'mode'} denotes the most likely estimate, \code{'mean'} the mean
@@ -110,19 +59,16 @@ truePrevMulti(x, n, prior,
     \code{'p'} denotes the confidence level of the expert.\cr
 	Only \code{mode} or \code{mean} should be specified; \code{lower} and
 	\code{upper} can be specified together or alone.\cr
-    See \link{betaExpert} for more information on Beta-Expert parametrization.}
+    See \code{\link{betaExpert}} for more information on Beta-Expert parameterization.}
 }
 }
 
 \value{
-An object of class \link[prevalence:prev-class]{prev}.
+An object of class \code{\link[prevalence:prev-class]{prev}}.
 }
 
 \note{
-Markov chain Monte Carlo sampling in \code{truePrevMulti} is performed by
-\pkg{JAGS (Just Another Gibbs Sampler)} through the
-\pkg{\link[rjags:rjags]{rjags}} package. JAGS can be downloaded from
-\url{http://sourceforge.net/projects/mcmc-jags/}.
+Markov chain Monte Carlo sampling in \code{truePrevMulti} is performed by \pkg{JAGS (Just Another Gibbs Sampler)} through the \pkg{\link[rjags:rjags]{rjags}} package. JAGS can be downloaded from \url{http://sourceforge.net/projects/mcmc-jags/}.
 }
 
 \author{
@@ -131,46 +77,22 @@ Markov chain Monte Carlo sampling in \code{truePrevMulti} is performed by
 
 \references{
 \itemize{
-  \item{
-    Berkvens D, Speybroeck N, Praet N, Adel A, Lesaffre E (2006)
-    \emph{Estimating disease prevalence in a Bayesian framework using
-	probabilistic constraints.}
-	Epidemiology 17; 145-153
-	}
-  \item{
-    Habib I, Sampers I, Uyttendaele M, De Zutter L, Berkvens D (2008)
-    \emph{A Bayesian modelling framework to estimate Campylobacter prevalence
-	and culture methods sensitivity: application to a chicken meat survey in
-	Belgium.}
-	Journal of Applied Microbiology 105; 2002-2008
-	}
-  \item{
-    Geurden T, Berkvens D, Casaert S, Vercruysse J, Claerebout E (2008)
-    \emph{A Bayesian evaluation of three diagnostic assays for the detection
-	of Giardia duodenalis in symptomatic and asymptomatic dogs.}
-	Veterinary Parasitology 157; 14-20
-	}
+  \item{Berkvens D, Speybroeck N, Praet N, Adel A, Lesaffre E (2006) Estimating disease prevalence in a Bayesian framework using probabilistic constraints. \emph{Epidemiology} \strong{17}:145-153}
+  \item{Habib I, Sampers I, Uyttendaele M, De Zutter L, Berkvens D (2008) A Bayesian modelling framework to estimate \emph{Campylobacter} prevalence and culture methods sensitivity: application to a chicken meat survey in Belgium. \emph{J Appl Microbiol} \strong{105}:2002-2008}
+  \item{Geurden T, Berkvens D, Casaert S, Vercruysse J, Claerebout E (2008) A Bayesian evaluation of three diagnostic assays for the detection of \emph{Giardia duodenalis} in symptomatic and asymptomatic dogs. \emph{Vet Parasitol} \strong{157}:14-20}
   }
 }
 
 \seealso{
-  \code{\link{definition_x}}:
-  how to define the vector of apparent test results \code{x}\cr
-  \code{\link{definition_theta}}:
-  how to define the vector of \code{theta} values in \code{prior}\cr
+  \code{\link{define_x}}: how to define the vector of apparent test results \code{x}\cr
+  \code{\link{define_prior}}: how to define the vector of \code{theta} values in \code{prior}\cr
   
-  \pkg{\link[coda:mcmc]{coda}}
-  for various functions that can be applied to the \code{prev@mcmc} object\cr
-  \code{\link{truePrev}}:
-  estimate true prevalence from apparent prevalence obtained by testing
-  \emph{individual} samples with a single test\cr
-  \code{\link{truePrevPools}}:
-  estimate true prevalence from apparent prevalence obtained by testing
-  \emph{pooled} samples\cr
-  \code{\link{betaPERT}}:
-  calculate the parameters of a Beta-PERT distribution\cr
-  \code{\link{betaExpert}}:
-  calculate the parameters of a Beta distribution based on expert opinion
+  \pkg{\link[coda:mcmc]{coda}} for various functions that can be applied to the \code{prev@mcmc} object\cr
+  \code{\link{truePrevMulti2}}: estimate true prevalence from apparent prevalence obtained by testing \emph{individual} samples with multiple tests, using a covariance scheme\cr
+  \code{\link{truePrev}}: estimate true prevalence from apparent prevalence obtained by testing \emph{individual} samples with a single test\cr
+  \code{\link{truePrevPools}}: estimate true prevalence from apparent prevalence obtained by testing \emph{pooled} samples\cr
+  \code{\link{betaPERT}}: calculate the parameters of a Beta-PERT distribution\cr
+  \code{\link{betaExpert}}: calculate the parameters of a Beta distribution based on expert opinion
 }
 
 \examples{
@@ -187,20 +109,20 @@ Markov chain Monte Carlo sampling in \code{truePrevMulti} is performed by
 ## -> SP1 and SP2 both equal 100\%                        ##
 ## -> beta(30, 12) describes P(T2+|D+,T1+)               ##
 ## The following results were obtained:                  ##
-## -> 341 samples T1-,T2-                                ##
-## -> 156 samples T1-,T2+                                ##
-## ->  46 samples T1+,T2-                                ##
 ## -> 113 samples T1+,T2+                                ##
+## ->  46 samples T1+,T2-                                ##
+## -> 156 samples T1-,T2+                                ##
+## -> 341 samples T1-,T2-                                ##
 ## ===================================================== ##
 
 ## how is the 2-test model defined?
-definition_x(2)
-definition_theta(2)
+define_x(2)
+define_prior(2)
 
 ## fit campylobacter 2-test model
 campy <-
 truePrevMulti(
-  x = c(341, 156, 46, 113),
+  x = c(113, 46, 156, 341),
   n = 656,
   prior = {
     theta[1] ~ dunif(0.45, 0.80)
@@ -216,7 +138,7 @@ truePrevMulti(
 ## fit same model using 'list-style'
 campy <-
 truePrevMulti(
-  x = c(341, 156, 46, 113),
+  x = c(113, 46, 156, 341),
   n = 656,
   prior =
     list(
@@ -268,24 +190,24 @@ autocorr.plot(campy)
 ## -> SE1 must be higher than 80\%                        ##
 ## -> SP1 must be higher than 90\%                        ##
 ## The following results were obtained:                  ##
-## -> 220 samples T1-,T2-,T3-                            ##
-## ->   3 samples T1-,T2-,T3+                            ##
-## ->  14 samples T1-,T2+,T3-                            ##
-## ->   1 sample  T1-,T2+,T3+                            ##
-## ->  12 samples T1+,T2-,T3-                            ##
-## ->  12 samples T1+,T2-,T3+                            ##
-## ->   4 samples T1+,T2+,T3-                            ##
 ## ->   6 samples T1+,T2+,T3+                            ##
+## ->   4 samples T1+,T2+,T3-                            ##
+## ->  12 samples T1+,T2-,T3+                            ##
+## ->  12 samples T1+,T2-,T3-                            ##
+## ->   1 sample  T1-,T2+,T3+                            ##
+## ->  14 samples T1-,T2+,T3-                            ##
+## ->   3 samples T1-,T2-,T3+                            ##
+## -> 220 samples T1-,T2-,T3-                            ##
 ## ===================================================== ##
 
 ## how is the 3-test model defined?
-definition_x(3)
-definition_theta(3)
+define_x(3)
+define_prior(3)
 
 ## fit giardia 3-test model
 giardia <-
 truePrevMulti(
-  x = c(220, 3, 14, 1, 12, 12, 4, 6),
+  x = c(6, 4, 12, 12, 1, 14, 3, 220),
   n = 272,
   prior = {
     theta[1] ~ dunif(0.00, 0.20)

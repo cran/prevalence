@@ -1,0 +1,22 @@
+prevalence 0.3.0
+================
+
+* new function `truePrevMulti2`, implementing a covariance scheme for
+  estimating TP from AP obtained with multiple tests
+
+* new function `define_prior2` to show the definition of the priors used
+  by `truePrevMulti2`
+
+* definition of `x` in `truePrevMulti` is reversed; first element of `x` now
+  is the number of samples positive on all tests, last element of `x` is the
+  number of samples negative on all tests
+
+* 'definition' functions renamed to `define_x` and `define_prior`
+
+* functions `truePrev` and `truePrevPools` lost args `conf.level` and `plot`
+
+* function `betaPERT` lost args `p` and `plot`
+
+* print method for objects of class `prev` no longer shows percentages
+
+* various code cleanups and small bug and typo fixes

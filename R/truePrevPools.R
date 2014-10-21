@@ -1,9 +1,9 @@
 truePrevPools <-
-function(x, n, SE = 1, SP = 1, prior = c(1, 1), conf.level = 0.95,
-         nchains = 2, burnin = 5000, update = 10000,
-         verbose = FALSE, plot = FALSE){
+function(x, n, SE = 1, SP = 1, prior = c(1, 1), 
+         nchains = 2, burnin = 10000, update = 10000,
+         verbose = FALSE) {
 
-  ## check x and n:
+  ## check x and n
   if (missing(x))  stop("'x' is missing")
   if (missing(n))  stop("'n' is missing")
   checkInput(x, "x", class = "integer", value = c(0, 1))
@@ -12,23 +12,21 @@ function(x, n, SE = 1, SP = 1, prior = c(1, 1), conf.level = 0.95,
   if (length(x) != length(n))  stop("'x' and 'n' must be of same length")
   if (length(x) == 1)  stop("\"truePrevPools\" requires at least 2 pools")
 
-  ## check SE & SP:
+  ## check SE & SP
   checkInput(SE, "SE", class = c("formula", "list", "numeric"))
   checkInput(SP, "SP", class = c("formula", "list", "numeric"))
   Se <- checkBinPrior(SE)
   Sp <- checkBinPrior(SP)
 
-  ## check prior & conf.level
+  ## check prior
   checkInput(prior, "prior", class = "numeric", length = 2, minEq = 0)
-  checkInput(conf.level, "conf.level", class = "numeric", range = c(0,1))
 
-  ## check nchains, burnin & update:
+  ## check nchains, burnin & update
   checkInput(nchains, "nchains", class = "integer", min = 2)
   checkInput(burnin, "burnin", class = "integer", min = 1)
   checkInput(update, "update", class = "integer", min = 1)
 
-  ## check options:
-  checkInput(plot, "plot", class = "logical")
+  ## check options
   checkInput(verbose, "verbose", class = "logical")
 
   ## create model
@@ -75,8 +73,8 @@ function(x, n, SE = 1, SP = 1, prior = c(1, 1), conf.level = 0.95,
   ## get output
   out <- new("prev",
              par = list(x = x, n = n, SE = Se, SP = Sp, prior = prior,
-                        conf.level = conf.level, nchains = nchains,
-                        burnin = burnin, update = update, inits = inits),
+                        nchains = nchains, burnin = burnin, update = update,
+                        inits = inits),
              model = model,
              mcmc = mcmc.list,
              diagnostics = list(DIC = DIC,
@@ -84,6 +82,5 @@ function(x, n, SE = 1, SP = 1, prior = c(1, 1), conf.level = 0.95,
                                       upperCL = BGR[2])))
 
   ## return output
-  if (plot) plot(out)
   return(out)
 }

@@ -12,7 +12,7 @@ function(x, name){
            "See ?truePrev for more details.")
 
     call <- as.character(x)[[2]]
-    dist2list(call)
+    dist2list(call, type = "prob")
 
   } else if (class(x) == "list"){
     check <- checkSeSp(x)

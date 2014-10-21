@@ -4,37 +4,39 @@ function(f, x){
 
   if (x$d[1] == "pert"){
     pertK <- ifelse(is.null(x$p[4]), 4, x$p[4])
-    pertP <- ifelse(is.null(x$p[5]), 0.95, x$p[5])
     pertM <- x$d[2]
 
-    betaPERT <- betaPERT(a = x$p[1], m = x$p[2], b = x$p[3],
-      k = pertK, p = pertP, method = pertM, plot = FALSE)
+    betaPERT <-
+      betaPERT(a = x$p[1], m = x$p[2], b = x$p[3], k = pertK, method = pertM)
 
     if (pertM  == "branscum"){
-      distSpec <- paste("~ dbeta(", betaPERT$alpha,
-        ", ", betaPERT$beta, ")", sep = "")
+      distSpec <-
+        paste0("~ dbeta(", betaPERT$alpha, ", ", betaPERT$beta, ")")
+
     } else {
-      distSpec1 <- paste("<- ", f, "p * (", betaPERT$b,
-        "-", betaPERT$a, ") + ", betaPERT$a, sep = "")
-      distSpec2 <- paste("~ dbeta(", betaPERT$alpha,
-        ", ", betaPERT$beta, ")", sep = "")
+      fp <- paste0(gsub("\\]", "", gsub("\\[", "", f)), "p")
+      dif <- betaPERT$b - betaPERT$a
+      distSpec1 <-
+        paste0("<- ", fp, " * ", dif, " + ", betaPERT$a)
+      distSpec2 <-
+        paste0("~ dbeta(", betaPERT$alpha, ", ", betaPERT$beta, ")")
       out <- c(out, paste(f, distSpec1))
-      out <- c(out, paste(f, "p ", distSpec2, sep = ""))
+      out <- c(out, paste(fp, distSpec2))
     }
   }
 
   if (x$d[1] == "fixed"){
-    distSpec <- paste("<- ", x$p, sep="")
+    distSpec <- paste0("<- ", x$p)
     out <- c(out, paste(f, distSpec))
   }
 
   if (x$d[1] == "uniform"){
-    distSpec <- paste("~ dunif(", x$p[1], ", ", x$p[2], ")", sep = "")
+    distSpec <- paste0("~ dunif(", x$p[1], ", ", x$p[2], ")")
     out <- c(out, paste(f, distSpec))
   }
 
   if (x$d[1] == "beta"){
-    distSpec <- paste("~ dbeta(", x$p[1], ", ", x$p[2], ")", sep = "")
+    distSpec <- paste0("~ dbeta(", x$p[1], ", ", x$p[2], ")")
     out <- c(out, paste(f, distSpec))
   }
 

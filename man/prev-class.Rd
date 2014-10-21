@@ -10,8 +10,7 @@ estimation models.
 }
 
 \section{Objects from the Class}{
-Objects of class \code{"prev"} are created by \code{\link{truePrev}},
-\code{\link{truePrevMulti}} and \code{\link{truePrevPools}}.
+Objects of class \code{"prev"} are created by \code{\link{truePrev}}, \code{\link{truePrevMulti}}, \code{\link{truePrevMulti2}} and \code{\link{truePrevPools}}.
 }
 
 \section{Slots}{
@@ -21,17 +20,13 @@ Objects of class \code{"prev"} contain the following four slots:
 	  A list of input parameters
 	}
     \item{\code{model}:}{
-	  The fitted Bayesian model, in BUGS language (class \code{"prevModel"}) 
+	  The fitted Bayesian model, in BUGS language (S3 class \code{"prevModel"}) 
 	}
     \item{\code{mcmc}:}{
-	  A list, with one element per chain, of the simulated true prevalences
-	  (and sensitivities and specificities in the case of
-	  \code{\link{truePrevMulti}})
+	  A list, with one element per chain, of the simulated true prevalences (and sensitivities and specificities in the case of \code{\link{truePrevMulti}} and \code{\link{truePrevMulti2}})
 	}
     \item{\code{diagnostics}:}{
-	  A list with elements for the Deviance Information Criterion
-	  (\code{$DIC}), the Brooks-Gelman-Rubin statistic (\code{$BGR}), and in
-	  the case of \code{\link{truePrevMulti}}), the Bayes-P statistic
+	  A list with elements for the Deviance Information Criterion (\code{$DIC}), the Brooks-Gelman-Rubin statistic (\code{$BGR}), and in the case of \code{\link{truePrevMulti}} and \code{\link{truePrevMulti2}}, the Bayes-P statistic
 	  (\code{$bayesP})
 	}
   }
@@ -42,14 +37,8 @@ Objects of class \code{"prev"} contain the following four slots:
 }
 
 \seealso{
-  \code{\link{truePrev}},
-  \code{\link{truePrevMulti}},
-  \code{\link{truePrevPools}}\cr
-  \code{\link{show-methods}},
-  \code{\link{print-methods}},
-  \code{\link{summary-methods}},
-  \code{\link{plot-methods}},
-    \code{\link{plot-methods-coda}}
+  \code{\link{truePrev}}, \code{\link{truePrevMulti}}, \code{\link{truePrevMulti2}}, \code{\link{truePrevPools}}\cr
+  \code{\link{show-methods}}, \code{\link{print-methods}}, \code{\link{summary-methods}}, \code{\link{plot-methods}}, \code{\link{plot-methods-coda}}
 }
 
 \examples{

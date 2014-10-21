@@ -1,17 +1,26 @@
 checkSeSp <-
-function(x){
+function(x, type = "prob") {
   distr <- NULL
   param <- NULL
 
   if (length(x) > 6)
     warning("Too many parameters specified")
 
-  if (length(x) == 1){
+  if (length(x) == 1) {
     distr <- "fixed"
-    if (x < 0 | x > 1)
-      stop(paste("Parameter 'par' of fixed distribution must be",
-                 "numeric value between 0 and 1"))
+
+    ## probability is constrained in (0,1)
+    if (type == "prob" && (x < 0 | x > 1))
+      stop("Parameter 'par' of fixed distribution must be",
+           " numeric value between 0 and 1")
+
+    ## covariance is constrained in +/- 2^-h
+    if (is.numeric(type) && (abs(x) > 2^-type))
+      stop("Parameter 'par' of fixed distribution must be",
+           " numeric value between +/-", 2^-type)
+
     param <- x
+
   } else {
     distr <- x$dist
   }
@@ -25,23 +34,31 @@ function(x){
     stop("Invalid distribution specified")
   distr <- tolower(distr)
   if (!any(c("fixed", "uniform", "pert", "beta", "beta-expert") == distr))
-    stop(paste("Distribution must be",
-               "'fixed', 'uniform', 'pert', 'beta' or 'beta-expert'"))
+    stop("Distribution must be",
+         " 'fixed', 'uniform', 'pert', 'beta' or 'beta-expert'")
 
   ## Fixed distribution
-  if (distr == "fixed" & is.null(param)){
+  if (distr == "fixed" & is.null(param)) {
     if (length(x) > 2)
       warning("A fixed distribution requires only 1 parameter")
     if (is.null(x$par))
       stop("Parameter 'par' not specified")
-    if (x$par < 0 | x$par > 1)
-      stop(paste("Parameter 'par' of fixed distribution must be",
-                 "numeric value between 0 and 1"))
+
+    ## probability is constrained in (0,1)
+    if (type == "prob" && (x$par < 0 | x$par > 1))
+      stop("Parameter 'par' of fixed distribution must be",
+           " numeric value between 0 and 1")
+
+    ## covariance is constrained in +/- 2^-h
+    if (is.numeric(type) && (abs(x$par) > 2^-type))
+      stop("Parameter 'par' of fixed distribution must be",
+           " numeric value between +/-", 2^-type)
+
     param <- x$par
   }
 
   ## Uniform distribution
-  if (distr == "uniform"){
+  if (distr == "uniform") {
     if (length(x) > 3)
       warning("A uniform distribution requires only 2 parameters")
     if (length(x) < 3)
@@ -50,16 +67,28 @@ function(x){
       stop("Parameter 'min' not specified")
     if (is.null(x$max))
       stop("Parameter 'max' not specified")
-    if (any(c(x$min, x$max) < 0) | any(c(x$min, x$max) > 1))
-      stop(paste("Parameters of uniform distribution must be",
-                 "numeric values between 0 and 1"))
     if (x$min > x$max)
       stop("'min' of uniform distribution cannot be larger than 'max'")
+
+    ## probability is constrained in (0,1)
+    if (type == "prob" && (any(c(x$min, x$max) < 0) | any(c(x$min, x$max) > 1)))
+      stop("Parameters of uniform distribution must be",
+           " numeric values between 0 and 1")
+
+    ## covariance is constrained in +/- 2^-h
+    if (is.numeric(type) && any(abs(c(x$min, x$max)) > 2^-type))
+      stop("Parameters of uniform distribution must be",
+           " numeric values between +/-", 2^-type)
+
     param <- c(x$min, x$max)
   }
 
   ## Beta distribution
-  if (distr == "beta"){
+  if (distr == "beta") {
+    ## covariance is constrained in +/- 2^-h
+    if (is.numeric(type))
+      stop("Beta distribution not allowed for covariance parameters")
+
     if (length(x) > 3)
       warning("A beta distribution requires only 2 parameters")
     if (length(x) < 3)
@@ -69,13 +98,18 @@ function(x){
     if (is.null(x$beta))
       stop("Parameter 'beta' not specified")
     if (any(c(x$alpha, x$beta) <= 0))
-      stop(paste("Parameters of beta distribution must be",
-                 "numeric values larger than 0"))
+      stop("Parameters of beta distribution must be",
+           " numeric values larger than 0")
+
     param <- c(x$alpha, x$beta)
   }
 
   ## Beta-Expert distribution
-  if (distr == "beta-expert"){
+  if (distr == "beta-expert") {
+    ## covariance is constrained in +/- 2^-h
+    if (is.numeric(type))
+      stop("Beta-Expert distribution not allowed for covariance parameters")
+
     if (is.null(x$mode) & is.null(x$mean))
       stop("At least 'mode' or 'mean' must be specified")
     if (!is.null(x$mode) & !is.null(x$mean))
@@ -87,9 +121,12 @@ function(x){
     if (is.null(x$p))
       stop("Parameter 'p' not specified")
     target <- c(x$lower, x$upper)[c(!is.null(x$lower), !is.null(x$upper))]
-    if (any(c(best, x$p, x$target) < 0) | any(c(best, x$p, x$target) > 1))
-      stop(paste("Parameters of beta-expert distribution must be",
-                 "numeric values between 0 and 1"))
+
+    ## probability is constrained in (0,1)
+    if (type == "prob" && (any(c(best, x$p, x$target) < 0) | any(c(best, x$p, x$target) > 1)))
+      stop("Parameters of beta-expert distribution must be",
+           " numeric values between 0 and 1")
+
     if (!is.null(x$lower))
       if (x$lower > x$m)
         stop("'lower' cannot be larger than 'm'")
@@ -99,11 +136,12 @@ function(x){
     if (!is.null(x$lower) & !is.null(x$upper))
       if (x$lower > x$upper)
         stop("'lower' cannot be larger than 'upper'")
+
     distr <- "beta"
-    if (is.null(x$upper)){
+    if (is.null(x$upper)) {
       param <-
         betaExpert(best = best, method = method, lower = x$lower, p = x$p)
-    } else if (is.null(x$lower)){
+    } else if (is.null(x$lower)) {
       param <-
         betaExpert(best = best, method = method, upper = x$upper, p = x$p)
     } else {
@@ -114,10 +152,10 @@ function(x){
   }
 
   ## Beta-PERT distribution
-  if (distr == "pert"){
-    if (length(x) > 5)
+  if (distr == "pert") {
+    if (length(x) > 6)
       warning("A PERT distribution requires maximum 5 parameters")
-    if (length(x) < 3)
+    if (length(x) < 4)
       warning("A PERT distribution requires at least 3 parameters")
     if (is.null(x$a))
       stop("Parameter 'a' not specified")
@@ -125,17 +163,24 @@ function(x){
       stop("Parameter 'm' not specified")
     if (is.null(x$b))
       stop("Parameter 'b' not specified")
-    if (any(c(x$a, x$m, x$b) < 0) | any(c(x$a, x$m, x$b) > 1))
-      stop(paste("Parameters of PERT distribution must be",
-                 "numeric values between 0 and 1"))
+
+    ## probability is constrained in (0,1)
+    if (type == "prob" && (any(c(x$a, x$m, x$b) < 0) | any(c(x$a, x$m, x$b) > 1)))
+      stop("Parameters of PERT distribution must be",
+           " numeric values between 0 and 1")
+
+    ## covariance is constrained in +/- 2^-h
+    if (is.numeric(type) && any(abs(c(x$a, x$m, x$b)) > 2^-type))
+      stop("Parameters of PERT distribution must be",
+           " numeric values between +/-", 2^-type)
+
     if (x$a > x$m)
       stop("'a' of PERT distribution cannot be larger than 'm'")
     if (x$m > x$b)
       stop("'m' of PERT distribution cannot be larger than 'b'")
     pertK <- ifelse(is.null(x$k), 4, x$k)
-    pertP <- ifelse(is.null(x$p), .95, x$p)
     pertM <- ifelse(is.null(x$method), "classic", x$method)
-    param <- c(x$a, x$m, x$b, pertK, pertP)
+    param <- c(x$a, x$m, x$b, pertK)
     distr <- c(distr, pertM)
   }
 

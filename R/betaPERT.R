@@ -1,6 +1,5 @@
 betaPERT <-
-function(a, m, b, k = 4, method = "classic", p = 0.95, plot = FALSE){
-
+function(a, m, b, k = 4, method = c("classic", "vose")) {
   ## check input
   if (!exists("a")) stop("'a' is missing")
   if (!exists("m")) stop("'m' is missing")
@@ -10,10 +9,9 @@ function(a, m, b, k = 4, method = "classic", p = 0.95, plot = FALSE){
   if (!is.numeric(b)) stop("'b' must be a numeric value")
 
   if (!exists("method")) stop("'method' is missing")
-  if (!any(c("classic", "vose") == tolower(method)))
-    stop("'method' must be 'Classic' or 'Vose'")
+  method <- match.arg(method)
 
-  if (tolower(method) == "classic"){
+  if (method == "classic") {
     if (!exists("k"))
       stop("'k' is missing")
     if (!is.numeric(k))
@@ -24,7 +22,7 @@ function(a, m, b, k = 4, method = "classic", p = 0.95, plot = FALSE){
     beta <- alpha * (b - mu) / (mu - a)
   }
 
-  if (tolower(method) == "vose"){
+  if (method == "vose") {
     if (!exists("k"))
       stop("'k' is missing")
     if (!is.numeric(k))
@@ -38,10 +36,8 @@ function(a, m, b, k = 4, method = "classic", p = 0.95, plot = FALSE){
 
   out <- list(alpha = alpha, beta = beta,
               a = a, m = m, b = b,
-              method = method, p = p)
+              method = method)
   class(out) <- "betaPERT"
-
-  if (plot) plot(out)
 
   return(out)
 }

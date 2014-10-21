@@ -1,13 +1,14 @@
 import(rjags)
 importFrom("methods", show)
 importFrom("graphics", plot)
+importFrom("coda", gelman.diag)
 importFrom("coda", gelman.plot)
 importFrom("coda", densplot)
 importFrom("coda", traceplot)
 importFrom("coda", autocorr.plot)
 
-export(truePrev, truePrevPools, truePrevMulti,
-       definition_x, definition_theta,
+export(truePrev, truePrevPools, truePrevMulti, truePrevMulti2,
+       define_x, define_prior, define_prior2,
        betaPERT, betaExpert, propCI)
 
 S3method(print, betaPERT)

@@ -16,7 +16,7 @@
 \section{Methods}{
   \describe{
     \item{\code{signature(object = "prev")}}{
-      Corresponds to \code{print(object, object@par$conf.level)}
+      Corresponds to \code{print(object)}
     }
   }
 }
