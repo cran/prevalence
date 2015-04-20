@@ -82,7 +82,7 @@ Available generic functions for class \code{"betaPERT"} are \code{print} and \co
 }
 
 \author{
-\email{Brecht.Devleesschauwer@UGent.be}
+Brecht Devleesschauwer <\email{brechtdv@gmail.com}>
 }
 
 \note{

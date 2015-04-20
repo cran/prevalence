@@ -53,7 +53,7 @@ Branscum AJ, Gardner IA, Johnson WO (2005) Estimation of diagnostic-test sensiti
 }
 
 \author{
-\email{Brecht.Devleesschauwer@UGent.be}
+Brecht Devleesschauwer <\email{brechtdv@gmail.com}>
 }
 
 \seealso{
@@ -65,7 +65,7 @@ Package \pkg{\href{http://cran.r-project.org/package=rriskDistributions}{rriskDi
 \examples{
 ## Most likely value (mode) is 90%
 ## Expert states with 95% certainty that true value is larger than 70%
-betaExpert(best = 0.90, lower = 0.75, p = 0.95)
+betaExpert(best = 0.90, lower = 0.70, p = 0.95)
 
 ## Most likely value (mode) is 0%
 ## Expert states with 95% certainty that true value is smaller than 40%

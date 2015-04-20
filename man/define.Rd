@@ -38,7 +38,7 @@ define_prior2(h)
 }
 
 \author{
-\email{Brecht.Devleesschauwer@UGent.be}
+Brecht Devleesschauwer <\email{brechtdv@gmail.com}>
 }
 
 \references{

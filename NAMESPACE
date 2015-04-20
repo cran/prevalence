@@ -18,5 +18,5 @@ S3method(plot, betaExpert)
 S3method(print, prevModel)
 
 exportClasses(prev)
-exportMethods(show, print, summary, plot,
-              densplot, traceplot, autocorr.plot, gelman.plot)
+exportMethods(show, print, summary, as.matrix,
+              plot, densplot, traceplot, autocorr.plot, gelman.plot)

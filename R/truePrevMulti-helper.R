@@ -429,9 +429,11 @@ write_bayesP <-
 function(h) {
   bayesP <-
     c(paste0("x2[1:", (2^h), "] ~ dmulti(AP[1:", (2^h), "], n)"),
+      #"d1 <- pow(x[] - AP[] * n, 2) / (n * AP[] * (1 - AP[]))",
+      #"d2 <- pow(x2[] - AP[] * n, 2) / (n * AP[] * (1 - AP[]))",
       paste0("for (i in 1:", (2^h), ") {"),
-      "d1[i] <- pow(x[i] - AP[i] * n, 2) / (AP[i] * n)",
-      "d2[i] <- pow(x2[i] - AP[i] * n, 2) / (AP[i] * n)",
+      "d1[i] <- x[i] * log(max(x[i],1) / (AP[i]*n))",
+      "d2[i] <- x2[i] * log(max(x2[i],1) / (AP[i]*n))",
       "}",
       "G0 <- sum(d1[])",
       "Gt <- sum(d2[])",

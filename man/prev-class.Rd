@@ -23,7 +23,7 @@ Objects of class \code{"prev"} contain the following four slots:
 	  The fitted Bayesian model, in BUGS language (S3 class \code{"prevModel"}) 
 	}
     \item{\code{mcmc}:}{
-	  A list, with one element per chain, of the simulated true prevalences (and sensitivities and specificities in the case of \code{\link{truePrevMulti}} and \code{\link{truePrevMulti2}})
+	  A list, with one element per chain, of the simulated true prevalences, sensitivities and specificities
 	}
     \item{\code{diagnostics}:}{
 	  A list with elements for the Deviance Information Criterion (\code{$DIC}), the Brooks-Gelman-Rubin statistic (\code{$BGR}), and in the case of \code{\link{truePrevMulti}} and \code{\link{truePrevMulti2}}, the Bayes-P statistic
@@ -33,12 +33,12 @@ Objects of class \code{"prev"} contain the following four slots:
 }
 
 \author{
-\email{Brecht.Devleesschauwer@UGent.be}
+Brecht Devleesschauwer <\email{brechtdv@gmail.com}>
 }
 
 \seealso{
   \code{\link{truePrev}}, \code{\link{truePrevMulti}}, \code{\link{truePrevMulti2}}, \code{\link{truePrevPools}}\cr
-  \code{\link{show-methods}}, \code{\link{print-methods}}, \code{\link{summary-methods}}, \code{\link{plot-methods}}, \code{\link{plot-methods-coda}}
+  \code{\link{show-methods}}, \code{\link{print-methods}}, \code{\link{summary-methods}}, \code{\link{convert-methods}}, \code{\link{plot-methods}}, \code{\link{plot-methods-coda}}
 }
 
 \examples{
@@ -67,14 +67,17 @@ str(TP)
 ## Every slot can be accessed using the '@' operator
 TP@par          # input parameters
 TP@model        # fitted model
-TP@mcmc         # simulated TP (and SE, SP)
+TP@mcmc         # simulated TP, SE, SP
 TP@diagnostics  # DIC and BGR (and bayesP)
 
-## TP@mcmc inherits from class 'mcmc.list' in coda package
+## Each element of TP@mcmc inherits from coda class 'mcmc.list'
 ## List all available methods for this class
 methods(class = "mcmc.list")
-## List all available functions in coda package
+## List all available functions in the coda package
 library(help = "coda")
+
+## Highest Posterior Density interval, from coda package
+HPDinterval(TP@mcmc$TP)
 }
 
 \keyword{classes}

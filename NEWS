@@ -1,3 +1,17 @@
+prevalence 0.4.0
+================
+
+* new method `as.matrix` for objects of class `prev`
+
+* add SE, SP to `truePrev` and `truePrevPools` output
+
+* fixed some documentation typos
+
+* updated website and email address
+
+* updated Description field to fix CRAN note
+
+
 prevalence 0.3.0
 ================
 

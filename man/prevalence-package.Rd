@@ -15,8 +15,11 @@
   \tabular{ll}{
     Package: \tab prevalence\cr
     Type: \tab Package\cr
-    Version: \tab 0.3.0\cr
-    Date: \tab 2014-10-21\cr
+    Version: \tab 0.4.0\cr
+    Date: \tab 2015-04-20\cr
+    BugReports: \tab \url{https://github.com/brechtdv/prevalence/issues}\cr
+    Depends: \tab R (>= 3.0.0), rjags, coda, methods\cr
+    SystemRequirements: \tab JAGS (>= 3.2.0) (see \url{http://mcmc-jags.sourceforge.net})\cr
     License: \tab GNU >= 2\cr
 }
 
@@ -38,7 +41,7 @@ JAGS can be downloaded from \url{http://sourceforge.net/projects/mcmc-jags/}
 
 \author{
   \strong{Creator, Maintainer}\cr
-  \email{Brecht.Devleesschauwer@UGent.be}\cr\cr
+  Brecht Devleesschauwer <\email{brechtdv@gmail.com}>\cr\cr
   \strong{Contributors}\cr
   Paul Torgerson, Johannes Charlier, Bruno Levecke, Nicolas Praet, Sophie Roelandt, Suzanne Smit, Pierre Dorny, Dirk Berkvens, Niko Speybroeck
 }

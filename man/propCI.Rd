@@ -70,7 +70,7 @@ Data frame with seven columns:
 }
 
 \author{
-\email{Brecht.Devleesschauwer@UGent.be}
+Brecht Devleesschauwer <\email{brechtdv@gmail.com}>
 }
 
 \examples{

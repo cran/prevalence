@@ -93,7 +93,7 @@ Markov chain Monte Carlo sampling in \code{truePrev} is performed by
 }
 
 \author{
-\email{Brecht.Devleesschauwer@UGent.be}
+Brecht Devleesschauwer <\email{brechtdv@gmail.com}>
 }
 
 \references{

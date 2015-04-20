@@ -3,7 +3,7 @@ citHeader("To cite the prevalence package in publications, please use:")
 citEntry(
   entry = "manual",
   author = c(person("Brecht", "Devleesschauwer",
-             role = c("aut", "cre"), email = "Brecht.Devleesschauwer@UGent.be"),
+             role = c("aut", "cre"), email = "brechtdv@gmail.com"),
              person("Paul", "Torgerson", role = "aut"),
              person("Johannes", "Charlier", role = "aut"),
              person("Bruno", "Levecke", role = "aut"),
@@ -14,8 +14,8 @@ citEntry(
              person("Dirk", "Berkvens", role = "aut"),
              person("Niko", "Speybroeck", role = "aut")),
   title = "prevalence: Tools for prevalence assessment studies.",
-  year = "2014",
-  note = "R package version 0.3.0",
+  year = "2015",
+  note = "R package version 0.4.0",
   url = "http://cran.r-project.org/package=prevalence",
-  textVersion = "Brecht Devleesschauwer, Paul Torgerson, Johannes Charlier, Bruno Levecke, Nicolas Praet, Sophie Roelandt, Suzanne Smit, Pierre Dorny, Dirk Berkvens and Niko Speybroeck (2014). prevalence: Tools for prevalence assessment studies. R package version 0.3.0. http://cran.r-project.org/package=prevalence"
+  textVersion = "Brecht Devleesschauwer, Paul Torgerson, Johannes Charlier, Bruno Levecke, Nicolas Praet, Sophie Roelandt, Suzanne Smit, Pierre Dorny, Dirk Berkvens and Niko Speybroeck (2014). prevalence: Tools for prevalence assessment studies. R package version 0.4.0. http://cran.r-project.org/package=prevalence"
 )

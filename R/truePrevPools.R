@@ -4,8 +4,8 @@ function(x, n, SE = 1, SP = 1, prior = c(1, 1),
          verbose = FALSE) {
 
   ## check x and n
-  if (missing(x))  stop("'x' is missing")
-  if (missing(n))  stop("'n' is missing")
+  if (missing(x)) stop("'x' is missing")
+  if (missing(n)) stop("'n' is missing")
   checkInput(x, "x", class = "integer", value = c(0, 1))
   checkInput(n, "n", class = "integer", minEq = 0)
   if (length(x) > 1 & length(n) == 1)  n <- rep(n, length(x))
@@ -44,8 +44,7 @@ function(x, n, SE = 1, SP = 1, prior = c(1, 1),
   model <- c(model, writeSeSp("SE", Se))
   model <- c(model, writeSeSp("SP", Sp))
 
-  model <- c(model,
-    paste("TP ~ dbeta(", prior[1], ", ", prior[2], ")", sep = ""))
+  model <- c(model, paste0("TP ~ dbeta(", prior[1], ", ", prior[2], ")"))
 
   model <- c(model, "}")
 
@@ -62,13 +61,30 @@ function(x, n, SE = 1, SP = 1, prior = c(1, 1),
 
   JAGSout <- R2JAGS(model = model, data = data, inits = inits,
                     nchains = nchains, burnin = burnin, update = update,
-                    nodes = "TP", verbose = verbose)
+                    nodes = c("SE", "SP", "TP"), verbose = verbose)
 
   mcmc.list <- JAGSout$mcmc.list
   class(mcmc.list) <- c("list", "mcmc.list")
 
+  nodes <- colnames(mcmc.list[[1]])                      # extract node names
+  mcmc.list_list <- list()                               # initiate list
+  for (i in seq_along(nodes))                            # assign nodes
+    mcmc.list_list[[i]] <- mcmc.list[, i]
+  names(mcmc.list_list) <- nodes                         # assign node names
+  mcmc.list_list <- mcmc.list_list[c("TP", "SE", "SP")]  # reorder elements
+
+  ## define diagnostics
+  # deviance information criterion
   DIC <- JAGSout$dic
-  BGR <- c(gelman.diag(mcmc.list, autoburnin = FALSE)$psrf)
+
+  # brooks-gelman-rubin diagnostic
+  # exclude fixed nodes
+  exclude <- which(apply(mcmc.list[[1]], 2, sd) == 0)
+  if (length(exclude) > 0) {
+    BGR <- gelman.diag(mcmc.list[, -exclude])
+  } else {
+    BGR <- gelman.diag(mcmc.list)
+  }
 
   ## get output
   out <- new("prev",
@@ -76,10 +92,9 @@ function(x, n, SE = 1, SP = 1, prior = c(1, 1),
                         nchains = nchains, burnin = burnin, update = update,
                         inits = inits),
              model = model,
-             mcmc = mcmc.list,
+             mcmc = mcmc.list_list,
              diagnostics = list(DIC = DIC,
-                                BGR = data.frame(mean = BGR[1],
-                                      upperCL = BGR[2])))
+                                BGR = BGR))
 
   ## return output
   return(out)

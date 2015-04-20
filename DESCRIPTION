@@ -1,10 +1,10 @@
 Package: prevalence
 Type: Package
-Title: The prevalence package
-Version: 0.3.0
-Date: 2014-10-21
+Title: Tools for Prevalence Assessment Studies
+Version: 0.4.0
+Date: 2015-04-20
 Authors@R: c(person("Brecht", "Devleesschauwer",
-             role = c("aut", "cre"), email = "Brecht.Devleesschauwer@UGent.be"),
+             role = c("aut", "cre"), email = "brechtdv@gmail.com"),
              person("Paul", "Torgerson", role = "aut"),
              person("Johannes", "Charlier", role = "aut"),
              person("Bruno", "Levecke", role = "aut"),
@@ -18,15 +18,16 @@ Author: Brecht Devleesschauwer [aut, cre], Paul Torgerson [aut],
         Johannes Charlier [aut], Bruno Levecke [aut], Nicolas Praet [aut],
         Sophie Roelandt [aut], Suzanne Smit [aut], Pierre Dorny [aut],
         Dirk Berkvens [aut], Niko Speybroeck [aut]
-Maintainer: Brecht Devleesschauwer <Brecht.Devleesschauwer@UGent.be>
+Maintainer: Brecht Devleesschauwer <brechtdv@gmail.com>
 BugReports: https://github.com/brechtdv/prevalence/issues
-Description: Tools for prevalence assessment studies. IMPORTANT: the truePrev functions in the prevalence package call on JAGS (Just Another Gibbs Sampler), which therefore has to be available on the user's system. JAGS can be downloaded from http://sourceforge.net/projects/mcmc-jags/files/
+Description: The prevalence package provides Frequentist and Bayesian methods for prevalence assessment studies. IMPORTANT: the truePrev functions in the prevalence package call on JAGS (Just Another Gibbs Sampler), which therefore has to be available on the user's system. JAGS can be downloaded from http://mcmc-jags.sourceforge.net/.
 Depends: R (>= 3.0.0), rjags, coda, methods
-SystemRequirements: jags (>= 3.2.0)
+SystemRequirements: JAGS (>= 3.2.0) (see
+        http://mcmc-jags.sourceforge.net)
 License: GPL (>= 2)
 URL: http://prevalence.cbra.be/
 LazyLoad: yes
-Packaged: 2014-10-21 14:13:58 UTC; UGent
 NeedsCompilation: no
+Packaged: 2015-04-20 14:55:49 UTC; UGent
 Repository: CRAN
-Date/Publication: 2014-10-21 16:58:55
+Date/Publication: 2015-04-20 18:30:21

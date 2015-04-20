@@ -12,7 +12,7 @@
 
 \arguments{
   \item{x}{An object of class \code{prev}}
-  \item{y}{Which parameter to plot? defaults to \code{NULL}}
+  \item{y}{Which parameter to plot? Defaults to \code{NULL}, in which case TP will be used}
   \item{\dots}{Other arguments to pass to the \code{plot} function}
 }
 

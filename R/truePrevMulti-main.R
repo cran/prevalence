@@ -173,7 +173,6 @@ function(x, n, prior, nchains, burnin, update, verbose) {
   exclude <-
     c(which(colnames(mcmc.list[[1]]) == "bayesP"),
       which(apply(mcmc.list[[1]], 2, sd) == 0))
-  gelman.diag(mcmc.list[, -exclude])
   BGR <- gelman.diag(mcmc.list[, -exclude])
 
   ## define output
@@ -363,7 +362,6 @@ function(x, n, prior, nchains, burnin, update, verbose) {
   exclude <-
     c(which(colnames(mcmc.list[[1]]) == "bayesP"),
       which(apply(mcmc.list[[1]], 2, sd) == 0))
-  gelman.diag(mcmc.list[, -exclude])
   BGR <- gelman.diag(mcmc.list[, -exclude])
 
   ## define output

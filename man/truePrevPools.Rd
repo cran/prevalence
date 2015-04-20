@@ -20,7 +20,7 @@ truePrevPools(x, n, SE = 1, SP = 1, prior = c(1, 1),
   \item{n}{The vector of pool sizes}
   \item{SE, SP}{The prior distribution for sensitivity (SE) and specificity (SP); see 'Details' below for specification of these distributions}
   \item{prior}{The parameters of the prior Beta distribution for true prevalence; defaults to \code{c(1, 1)}}
-  \item{nchains}{The number of chains used in the estimation process; \code{'n'} must be \eqn{\ge 2}}
+  \item{nchains}{The number of chains used in the estimation process; \code{nchains} must be \eqn{\ge 2}}
   \item{burnin}{The number of discarded model iterations; defaults to 10,000}
   \item{update}{The number of withheld model iterations; defaults to 10,000}
   \item{verbose}{Logical flag, indicating if JAGS process output should be printed to the R console; defaults to \code{FALSE}}
@@ -50,7 +50,7 @@ truePrevPools(x, n, SE = 1, SP = 1, prior = c(1, 1),
   by the user, independently, as one of \code{"fixed"}, \code{"uniform"},
   \code{"beta"}, \code{"pert"}, or \code{"beta-expert"}, with \code{"fixed"} as
   the default. Note that \code{SE} and \code{SP} must correspond to the test
-  characteristics for testing inddividual samples; \code{truePrevPools} will
+  characteristics for testing individual samples; \code{truePrevPools} will
   calculate \code{SEpool} and \code{SPpool}, the sensitivity and specificitiy
   for testing pooled samples, based on Boelaert et al. (2000).
 
@@ -98,7 +98,7 @@ Markov chain Monte Carlo sampling in \code{truePrevPools} is performed by
 }
 
 \author{
-\email{Brecht.Devleesschauwer@UGent.be}
+Brecht Devleesschauwer <\email{brechtdv@gmail.com}>
 }
 
 \references{
