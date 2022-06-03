@@ -15,11 +15,11 @@
   \tabular{ll}{
     Package: \tab prevalence\cr
     Type: \tab Package\cr
-    Version: \tab 0.4.0\cr
-    Date: \tab 2015-04-20\cr
+    Version: \tab 0.4.1\cr
+    Date: \tab 2022-06-03\cr
     BugReports: \tab \url{https://github.com/brechtdv/prevalence/issues}\cr
-    Depends: \tab R (>= 3.0.0), rjags, coda, methods\cr
-    SystemRequirements: \tab JAGS (>= 3.2.0) (see \url{http://mcmc-jags.sourceforge.net})\cr
+    Depends: \tab R (>= 4.0.0), rjags, coda, methods\cr
+    SystemRequirements: \tab JAGS (>= 3.2.0) (see \url{https://mcmc-jags.sourceforge.io/})\cr
     License: \tab GNU >= 2\cr
 }
 
@@ -36,7 +36,7 @@ Available functions in the \pkg{prevalence} package:
   }
 
 \strong{IMPORTANT}: the \code{truePrev} functions in the \pkg{prevalence} package call on \pkg{JAGS (Just Another Gibbs Sampler)}, through the \pkg{\link[rjags:rjags]{rjags}} package. Therefore, JAGS has to be installed on the user's system.\cr\cr
-JAGS can be downloaded from \url{http://sourceforge.net/projects/mcmc-jags/}
+JAGS can be downloaded from \url{https://mcmc-jags.sourceforge.io/}
 }
 
 \author{

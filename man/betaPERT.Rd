@@ -26,7 +26,7 @@ betaPERT(a, m, b, k = 4, method = c("classic", "vose"))
   \item{k}{Scale parameter}
   \item{method}{\code{"classic"} or \code{"vose"}; see details below}
   
-  \item{x}{Object of class \code{betaExpert}}
+  \item{x}{Object of class \code{betaPERT}}
   \item{y}{Currently ignored}
   \item{conf.level}{Confidence level used in printing quantiles of resulting Beta-PERT distribution}
   \item{\dots}{Other arguments to pass to function \code{print} and \code{plot}}
@@ -86,7 +86,7 @@ Brecht Devleesschauwer <\email{brechtdv@gmail.com}>
 }
 
 \note{
-The \pkg{\href{http://cran.r-project.org/web/packages/mc2d/}{mc2d}} package provides 
+The \pkg{\href{https://cran.r-project.org/package=mc2d}{mc2d}} package provides 
 the probability density function, cumulative distribution function, quantile function and random number generation function 
 for the PERT distribution, parametrized by the \code{"vose"} method.
 }

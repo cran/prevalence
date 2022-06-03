@@ -2,10 +2,10 @@
 
 checkBinPrior <-
 function(x, name){
-  if (class(x) == "numeric"){
+  if (inherits(x, "numeric")){
     out <- checkSeSp(list(dist = "fixed", par = x))
 
-  } else if (class(x) == "formula"){
+  } else if (inherits(x, "formula")){
     ## 'x' should be of length 2 ('~' + dist)
     if (length(x) != 2)
       stop("Formula specification of ", name, " is incorrect.\n",
@@ -14,7 +14,7 @@ function(x, name){
     call <- as.character(x)[[2]]
     dist2list(call, type = "prob")
 
-  } else if (class(x) == "list"){
+  } else if (inherits(x, "list")){
     check <- checkSeSp(x)
 
   } else {

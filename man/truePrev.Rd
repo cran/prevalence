@@ -89,7 +89,7 @@ An object of class \code{\link[prevalence:prev-class]{prev}}.
 Markov chain Monte Carlo sampling in \code{truePrev} is performed by
 \pkg{JAGS (Just Another Gibbs Sampler)} through the
 \pkg{\link[rjags:rjags]{rjags}} package. JAGS can be downloaded from
-\url{http://sourceforge.net/projects/mcmc-jags/}.
+\url{https://mcmc-jags.sourceforge.io/}.
 }
 
 \author{
@@ -99,7 +99,7 @@ Brecht Devleesschauwer <\email{brechtdv@gmail.com}>
 \references{
 \itemize{
   \item{Speybroeck N, Devleesschauwer B, Joseph L, Berkvens D (2013) Misclassification errors in prevalence estimation: Bayesian handling with care. \emph{Int J Public Health} \strong{58}:791-795}
-  \item{Online Shiny application: \url{http://users.ugent.be/~bdvleess/R/prevalence/shiny/}}
+  \item{Online Shiny application: \url{https://cbra.shinyapps.io/truePrev/}}
   }
 }
 

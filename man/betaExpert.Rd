@@ -57,7 +57,7 @@ Brecht Devleesschauwer <\email{brechtdv@gmail.com}>
 }
 
 \seealso{
-Package \pkg{\href{http://cran.r-project.org/package=rriskDistributions}{rriskDistributions}}, which provides a collection of functions for fitting distributions to given data or by known quantiles.\cr
+Package \pkg{\href{https://cran.r-project.org/package=rriskDistributions}{rriskDistributions}}, which provides a collection of functions for fitting distributions to given data or by known quantiles.\cr
 
 \code{\link{betaPERT}}, for modelling a generalized Beta distribution based on expert opinion
 }

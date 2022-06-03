@@ -61,14 +61,15 @@ traceplot(TP)
 gelman.plot(TP)
 autocorr.plot(TP)
 
-## Use 'str()' to see the structure of object TP
-str(TP)
+## Use 'slotNames()' to see the slots of object TP
+slotNames(TP)
 
 ## Every slot can be accessed using the '@' operator
-TP@par          # input parameters
-TP@model        # fitted model
-TP@mcmc         # simulated TP, SE, SP
-TP@diagnostics  # DIC and BGR (and bayesP)
+## Use 'str()' to see the structure of each object
+str(TP@par)          # input parameters
+str(TP@model)        # fitted model
+str(TP@mcmc)         # simulated TP, SE, SP
+str(TP@diagnostics)  # DIC and BGR (and bayesP)
 
 ## Each element of TP@mcmc inherits from coda class 'mcmc.list'
 ## List all available methods for this class
@@ -77,7 +78,7 @@ methods(class = "mcmc.list")
 library(help = "coda")
 
 ## Highest Posterior Density interval, from coda package
-HPDinterval(TP@mcmc$TP)
+coda::HPDinterval(TP@mcmc$TP)
 }
 
 \keyword{classes}

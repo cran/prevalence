@@ -1,8 +1,8 @@
 Package: prevalence
 Type: Package
 Title: Tools for Prevalence Assessment Studies
-Version: 0.4.0
-Date: 2015-04-20
+Version: 0.4.1
+Date: 2022-06-03
 Authors@R: c(person("Brecht", "Devleesschauwer",
              role = c("aut", "cre"), email = "brechtdv@gmail.com"),
              person("Paul", "Torgerson", role = "aut"),
@@ -14,20 +14,27 @@ Authors@R: c(person("Brecht", "Devleesschauwer",
              person("Pierre", "Dorny", role = "aut"),
              person("Dirk", "Berkvens", role = "aut"),
              person("Niko", "Speybroeck", role = "aut"))
-Author: Brecht Devleesschauwer [aut, cre], Paul Torgerson [aut],
-        Johannes Charlier [aut], Bruno Levecke [aut], Nicolas Praet [aut],
-        Sophie Roelandt [aut], Suzanne Smit [aut], Pierre Dorny [aut],
-        Dirk Berkvens [aut], Niko Speybroeck [aut]
+Author: Brecht Devleesschauwer [aut, cre],
+  Paul Torgerson [aut],
+  Johannes Charlier [aut],
+  Bruno Levecke [aut],
+  Nicolas Praet [aut],
+  Sophie Roelandt [aut],
+  Suzanne Smit [aut],
+  Pierre Dorny [aut],
+  Dirk Berkvens [aut],
+  Niko Speybroeck [aut]
 Maintainer: Brecht Devleesschauwer <brechtdv@gmail.com>
 BugReports: https://github.com/brechtdv/prevalence/issues
-Description: The prevalence package provides Frequentist and Bayesian methods for prevalence assessment studies. IMPORTANT: the truePrev functions in the prevalence package call on JAGS (Just Another Gibbs Sampler), which therefore has to be available on the user's system. JAGS can be downloaded from http://mcmc-jags.sourceforge.net/.
-Depends: R (>= 3.0.0), rjags, coda, methods
-SystemRequirements: JAGS (>= 3.2.0) (see
-        http://mcmc-jags.sourceforge.net)
+Description: The prevalence package provides Frequentist and Bayesian methods for prevalence assessment studies. IMPORTANT: the truePrev functions in the prevalence package call on JAGS (Just Another Gibbs Sampler), which therefore has to be available on the user's system. JAGS can be downloaded from <https://mcmc-jags.sourceforge.io/>.
+Depends: R (>= 4.0.0)
+Imports: methods, utils, stats, graphics, grDevices, coda, rjags
+SystemRequirements: JAGS (>= 4.0.0) (see
+        https://mcmc-jags.sourceforge.io/)
 License: GPL (>= 2)
 URL: http://prevalence.cbra.be/
 LazyLoad: yes
 NeedsCompilation: no
-Packaged: 2015-04-20 14:55:49 UTC; UGent
+Packaged: 2022-06-03 21:00:31 UTC; BrDe394
 Repository: CRAN
-Date/Publication: 2015-04-20 18:30:21
+Date/Publication: 2022-06-03 21:20:02 UTC

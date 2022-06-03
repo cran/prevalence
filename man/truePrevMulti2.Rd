@@ -78,7 +78,7 @@ An object of class \code{\link[prevalence:prev-class]{prev}}.
 }
 
 \note{
-Markov chain Monte Carlo sampling in \code{truePrevMulti2} is performed by \pkg{JAGS (Just Another Gibbs Sampler)} through the \pkg{\link[rjags:rjags]{rjags}} package. JAGS can be downloaded from \url{http://sourceforge.net/projects/mcmc-jags/}.
+Markov chain Monte Carlo sampling in \code{truePrevMulti2} is performed by \pkg{JAGS (Just Another Gibbs Sampler)} through the \pkg{\link[rjags:rjags]{rjags}} package. JAGS can be downloaded from \url{https://mcmc-jags.sourceforge.io/}.
 }
 
 \author{

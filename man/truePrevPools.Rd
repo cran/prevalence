@@ -94,7 +94,7 @@ An object of class \link[prevalence:prev-class]{prev}.
 Markov chain Monte Carlo sampling in \code{truePrevPools} is performed by
 \pkg{JAGS (Just Another Gibbs Sampler)} through the
 \pkg{\link[rjags:rjags]{rjags}} package. JAGS can be downloaded from
-\url{http://sourceforge.net/projects/mcmc-jags/}.
+\url{https://mcmc-jags.sourceforge.io/}.
 }
 
 \author{
